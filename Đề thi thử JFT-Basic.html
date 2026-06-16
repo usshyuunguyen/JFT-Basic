@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Đề thi thử JFT-Basic</title>
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+<style>
+body {
+  font-family: Helvetica;
+  background: #f5f6fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* slides */
+.slide {
+  display: none;
+  background: white;
+  padding: 20px;
+  width: 75%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.active {
+  display: block;
+}
+
+/* spacing */
+p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* input */
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#passwordInput {
+  -webkit-text-security: disc;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+/* options */
+label {
+  display: block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* button */
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 200px;
+  background: #2d7ff9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.img-option {
+  display: block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%
+}
+
+.img-option img {
+  width: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.horizontal-options {
+  display: flex;
+  gap: 20px;
+}
+
+.horizontal-options .img-option {
+  position: relative;
+  height: 150;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontal-options .img-option img {
+  width: auto;
+  height: auto;
+  max-height: 150px;
+  max-width: 450px;
+}
+
+.horizontal-options .img-option input[type="radio"] {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.result-slide {
+  width: 40%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.confirm-slide {
+  width: 40%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.intro-slide {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.intro-slide button {
+  width: 100%;
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+.confirm-slide button {
+  width: 100%;
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+.question-slide {
+  width: 1200px !important;
+  max-width: none;
+}
+
+#timer {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 9999;
+}
+
+#logo {
+  position: fixed;
+  top: 15px;
+  left: 20px;
+  width: 50px;
+  height: auto;
+  z-index: 9999;
+}
+
+#progressContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: rgba(0,0,0,0.2);
+  z-index: 9999;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.3s ease;
+}
+
+</style>
+</head>
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+<div id="progressContainer">
+  <div id="progressBar"></div>
+</div>
+
+<div id="timer">60:00</div>
+<img src="https://eki.com.vn/wp-content/uploads/2024/03/favicon.png" id="logo">
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+<body>
+
+<!-- Password -->
+<div class="slide active intro-slide" id="passwordSlide">
+  <h2 style="text-align:center;">Nhập mật khẩu</h2>
+  <p><input type="password" style="width: 95%;" id="passwordInput"></p>
+  <p id="passwordError" style="color: crimson; display: none;">Mật khẩu không chính xác.</p>
+  <button id="passwordBtn">Xác nhận</button>
+</div>
+
+<!-- Tiêu đề -->
+<div class="slide intro-slide">
+  <h2 style="text-align:center;">Đề thi thử JFT-Basic</h2>
+  <hr>
+  <p>Họ và tên<br>
+  <input type="text" style="width: 95%;" id="q0name" placeholder="Ví dụ: Nguyễn Văn A"></p>
+  
+  <p>Lớp<br>
+  <input type="text"  style="width: 20%;" id="q0class" placeholder="Ví dụ: AE01"></p>
+  
+  <p>Số báo danh<br>
+  <input type="text" style="width: 20%;" id="q0id" placeholder="Ví dụ: 01"></p>
+
+  <button class="next" id="startBtn">Bắt đầu làm bài</button>
+</div>
+
+<!--------------------------------------------------------------->
+
+<div id="questionContainer"></div>
+
+<!--------------------------------------------------------------->
+
+<!-- Xác nhận -->
+
+<div class="slide confirm-slide">
+  <h2 style="text-align:center;">Xác nhận nộp bài</h2>
+  <button class="next">Nộp bài</button>
+</div>
+
+<!--------------------------------------------------------------->
+
+<!-- Kết quả -->
+<div class="slide result-slide">
+  <h2 style="text-align:center;">Kết quả</h2>
+  <hr>
+  <p>Họ và tên: <span id="display_q0name"></span><br>
+     Lớp: <span id="display_q0class"></span><br>
+     Số báo danh: <span id="display_q0id"></span></p>
+  <p>Thời gian nộp bài: <span id="timestamp"></span></p>
+  <b><h3 style="text-align:center;" id="resultText"></h3></b>
+</div>
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+<script src="JS/bankA1A1.js"></script>
+<script src="JS/bankA1A2.js"></script>
+<script src="JS/bankA2A1.js"></script>
+<script src="JS/bankA2A2.js"></script>
+<script src="JS/bankA3A1.js"></script>
+<script src="JS/bankA3A2.js"></script>
+<script src="JS/bankA4A1.js"></script>
+<script src="JS/bankA4A2.js"></script>
+
+<script src="JS/bankB1A1.js"></script>
+<script src="JS/bankB1A2.js"></script>
+<script src="JS/bankB2A1.js"></script>
+<script src="JS/bankB2A2.js"></script>
+
+<script src="JS/bankC1A1.js"></script>
+<script src="JS/bankC1A2.js"></script>
+<script src="JS/bankC2A1.js"></script>
+<script src="JS/bankC2A2.js"></script>
+<script src="JS/bankC3A1.js"></script>
+<script src="JS/bankC3A2.js"></script>
+
+<script src="JS/bankD1A1.js"></script>
+<script src="JS/bankD1A2.js"></script>
+<script src="JS/bankD2A1.js"></script>
+<script src="JS/bankD2A2.js"></script>
+
+<script src="JS/config.js"></script>
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+<script>
+
+"use strict";
+
+function pickRandom(arr, count) {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j =
+        Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] =
+        [copy[j], copy[i]];
+    }
+    return copy.slice(0, count);
+}
+const selectedQuestions = questionConfig.flatMap(
+    ([getBank, count]) =>
+        pickRandom(getBank(), count)
+);
+
+const questionContainer =
+document.getElementById("questionContainer");
+selectedQuestions.forEach((q, index) => {
+    questionContainer.innerHTML +=
+        q.html.replace(
+            "{NUMBER}",
+            index + 1
+        );
+});
+
+document.querySelectorAll(".options").forEach(container => {
+    const choices = Array.from(container.children);
+    for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [choices[i], choices[j]] =
+        [choices[j], choices[i]];
+    }
+    choices.forEach(choice => {
+        container.appendChild(choice);
+    });
+});
+
+// ===== SLIDES =====
+let scoreSubmitted = false;
+let current = 0;
+let slides =
+document.querySelectorAll(".slide");
+let questionSlides =
+document.querySelectorAll(".question-slide");
+let totalQuestions =
+questionSlides.length;
+
+function showSlide(index) {
+  // STOP all audio first
+  document.querySelectorAll("audio").forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0; // optional: reset to start
+  });
+  // switch slide
+  slides.forEach(s => s.classList.remove("active"));
+  slides[index].classList.add("active");
+  // STOP TIMER when last slide (result) is opened
+  if (index === slides.length - 1) {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+  }
+  updateProgress(index);
+}
+
+function updateProgress(currentIndex) {
+  let questionIndex = 0;
+  // count how many question slides we've passed
+  for (let i = 0; i <= currentIndex; i++) {
+    if (slides[i].classList.contains("question-slide")) {
+      questionIndex++;
+    }
+  }
+  let percent =
+totalQuestions > 0
+? (questionIndex / totalQuestions) * 100
+: 0;
+  document.getElementById("progressBar").style.width = percent + "%";
+}
+
+// ===== LOAD / SAVE =====
+let userAnswers = {};
+
+// ===== NEXT BUTTON =====
+document.addEventListener("click", function(e){
+    if(!e.target.classList.contains("next"))
+        return;
+	if (e.target.id === "startBtn") {
+    startTimer();
+}
+    if (current < slides.length - 1) {
+        slides[current]
+    .querySelectorAll("iframe")
+    .forEach(frame => frame.remove());
+		current++;
+        if (current === slides.length - 1) {
+            calculateScore();
+        }
+        showSlide(current);
+    }
+});
+
+// ===== TEXT INPUT =====
+document.querySelectorAll("input[type='text']").forEach(input => {
+  // restore
+  if (userAnswers[input.id]) {
+    input.value = userAnswers[input.id];
+  }
+  // save
+  input.addEventListener("input", (e) => {
+    userAnswers[e.target.id] = e.target.value;
+    localStorage.setItem("answers", JSON.stringify(userAnswers));
+  });
+});
+
+// ===== RADIO INPUT =====
+document.querySelectorAll("input[type='radio']").forEach(input => {
+  // restore
+  if (userAnswers[input.name] === input.value) {
+    input.checked = true;
+  }
+  // save
+  input.addEventListener("change", (e) => {
+    userAnswers[e.target.name] = e.target.value;
+  });
+});
+
+function getFormattedDateTime() {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+// ===== GRADING =====
+
+const quizData = {};
+selectedQuestions.forEach(q => {
+    if (Array.isArray(q.id)) {
+        q.id.forEach(id => {
+            quizData[id] = {
+                answer: q.answer,
+                score: q.score / q.id.length
+            };
+        });
+    } else {
+        quizData[q.id] = {
+            answer: q.answer,
+            score: q.score
+        };
+    }
+});
+
+function calculateScore() {
+  let totalScore = 0;
+  let maxScore = 0;
+  for (let q in quizData) {
+    let correct = quizData[q].answer.toLowerCase().trim();
+    let user = (userAnswers[q] || "").toLowerCase().trim();
+    maxScore += quizData[q].score;
+    if (user === correct) {
+      totalScore += quizData[q].score;
+    }
+  }
+  document.getElementById("resultText").innerText =
+    totalScore + " / " + maxScore + " điểm";
+  document.getElementById("display_q0name").innerText = userAnswers.q0name || "";
+  document.getElementById("display_q0class").innerText = userAnswers.q0class || "";
+  document.getElementById("display_q0id").innerText = userAnswers.q0id || "";
+  document.getElementById("timestamp").innerText = getFormattedDateTime();
+  if (!scoreSubmitted) {
+
+  scoreSubmitted = true;
+
+  fetch(PASSWORD_API, {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "text/plain"
+  },
+  body: JSON.stringify({
+    name: userAnswers.q0name || "",
+    className: userAnswers.q0class || "",
+    studentId: userAnswers.q0id || "",
+    score: totalScore,
+    maxScore: maxScore
+  })
+});
+
+}
+  
+}
+
+// ===== PASSWORD PROTECTION =====
+document.getElementById("passwordBtn").addEventListener("click", async () => {
+  const input = document
+    .getElementById("passwordInput")
+    .value
+    .trim();
+  try {
+    const response = await fetch(
+      PASSWORD_API +
+      "?password=" +
+      encodeURIComponent(input)
+    );
+    const data = await response.json();
+    if (data.valid) {
+      document.getElementById("passwordError").style.display = "none";
+      current = 1;
+      showSlide(current);
+    } else {
+      document.getElementById("passwordError").style.display = "block";
+    }
+  } catch (err) {
+    alert("Cannot verify password.");
+  }
+});
+
+// ===== START =====
+showSlide(current);
+
+// ===== BLOCK BACK BUTTON (optional) =====
+history.pushState(null, null, location.href);
+window.onpopstate = function () {
+  history.go(1);
+};
+
+// ===== TIMER =====
+let timeLeft = 60 * 60; // 60 minutes in seconds
+let timerStarted = false;
+let timerInterval = null;
+
+function formatTime(seconds) {
+  let m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  let s = String(seconds % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function startTimer() {
+  if (timerStarted) return; // prevent multiple starts
+  timerStarted = true;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").innerText = formatTime(timeLeft);
+    if (timeLeft <= 0) {
+  clearInterval(timerInterval);
+  document.getElementById("timer").innerText = "00:00";
+  // stop audio
+  document.querySelectorAll("audio").forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
+  // remove all remaining iframes
+  document.querySelectorAll("iframe").forEach(frame => {
+    frame.remove();
+  });
+  // calculate score
+  calculateScore();
+  // jump to result slide
+  current = slides.length - 1;
+  showSlide(current);
+}
+  }, 1000);
+}
+
+</script>
+
+<!-------------------------------------------------------------------------------------------------------------------------->
+
+</body>
+</html>
