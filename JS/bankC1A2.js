@@ -164,7 +164,7 @@ const bankC1A2 = [
   <p>Người này không biết đường tới điểm cần đến và đang hỏi đường. Địa điểm họ cần đến nằm ở vị trí nào?</p>
   
   <!--File nghe-->
-  <p><iframe src="https://drive.google.com/file/d/1F41DEGNGD5uKmeO_4MSLVsf0FYiJVv9o/preview" width="450" height="75">
+  <p><iframe src="https://drive.google.com/file/d/1F41DEGNGD5uKmeO_4MSLVsf0FYiJVv9o/preview" width="450" height="75" style="border: none"></iframe>
      <br>
   
   <!--Ảnh-->
@@ -246,7 +246,7 @@ const bankC1A2 = [
   <p>Người này không biết đường tới điểm cần đến và đang hỏi đường. Địa điểm họ cần đến nằm ở vị trí nào?</p>
   
   <!--File nghe-->
-  <p><iframe src="https://drive.google.com/file/d/1mKAn5cwL5DgdCnMLa-RnS70m7ECgzpP7/preview" width="450" height="75" style="border: none"></iframe>
+  <p><iframe src="https://drive.google.com/file/d/1mKAn5cwL5DgdCnMLa-RnS70m7ECgzpP7/preview" width="450" height="75" loading="eager" style="border: none"></iframe>
      <br>
   
   <!--Ảnh-->
@@ -287,7 +287,7 @@ const bankC1A2 = [
   <p>Người này không biết đường tới điểm cần đến và đang hỏi đường. Địa điểm họ cần đến nằm ở vị trí nào?</p>
   
   <!--File nghe-->
-  <p><iframe src="https://drive.google.com/file/d/1sxevosBDav_EBW18zzzEPQSdsT53P24d/preview" width="450" height="75" style="border: none"></iframe>
+  <p><iframe src="https://drive.google.com/file/d/1sxevosBDav_EBW18zzzEPQSdsT53P24d/preview" width="450" height="75" loading="eager" style="border: none"></iframe>
      <br>
   
   <!--Ảnh-->
